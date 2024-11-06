@@ -17,4 +17,4 @@ COPY . .
 RUN npm run build
 
 # 7. 서비스 실행
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "start"]
