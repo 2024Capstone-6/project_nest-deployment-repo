@@ -3,10 +3,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 
 // 모듈 import
-// import { JapanModule } from './japan/japan.module';
+//import { JapanModule } from './japan/japan.module';
 
 // 엔티티 import
-// import { Activities } from './japan/entities/activities/activities.entity';
+//import { Activities } from './japan/entities/activities/activities.entity';
+
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -21,7 +24,10 @@ import { ConfigModule } from '@nestjs/config';
       entities: [], // 엔티티를 수동으로 로드
       // 본인 엔티티 import 후 넣어서 작업하세요
       synchronize: true, // 데이터베이스 스키마 동기화
-    }), // 모듈 import 후 사용
+    }),
+    // JapanModule, // 모듈 import
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
