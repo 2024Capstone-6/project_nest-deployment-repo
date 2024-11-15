@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 // @Entity(): 이 클래스가 데이터베이스 테이블의 엔티티임을 나타냄
 @Entity()
-export class ActivitiesPost {
+export class Activities {
   // @PrimaryGeneratedColumn(): 자동으로 생성되는 기본 키
   @PrimaryGeneratedColumn()
   id: number;
