@@ -8,6 +8,9 @@ import { JapanModule } from './japan/japan.module';
 // 엔티티 import
 import { Activities } from './japan/entities/activities/activities.entity';
 
+// import { AppController } from './app.controller';
+// import { AppService } from './app.service';
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }), // .env 파일을 불러오기 위한 설정
@@ -24,5 +27,7 @@ import { Activities } from './japan/entities/activities/activities.entity';
     }),
     JapanModule, // 모듈 import
   ],
+  // controllers: [AppController],
+  // providers: [AppService],
 })
 export class AppModule {}
