@@ -11,7 +11,7 @@ import {
 // ActivitiesService를 가져옴. 이 서비스는 관련된 비즈니스 로직을 처리
 import { ActivitiesService } from './activities.service';
 // Activities 엔티티를 가져옴. 이 엔티티는 데이터베이스 테이블과 매핑
-import { Activities } from '../entities/activities/activities.entity';
+import { Activities } from '../entities/activities.entity';
 
 @Controller('activities')
 // 'activities' 경로와 관려된 요청을 처리

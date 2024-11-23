@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 // 데이터베이스 작업을 수행하는 데 사용됨
 import { Repository } from 'typeorm';
 // 데이터베이스 테이블과 매핑
-import { Activities } from '../entities/activities/activities.entity';
+import { Activities } from '../entities/activities.entity';
 
 @Injectable()
 // 클래스를 정의, 활동과 관련된 비즈니스 로직을 처리
@@ -25,7 +25,7 @@ export class ActivitiesService {
     return this.activitiesRepository.save(newActivity);
   }
 
-  // READ: 모든 활동 게시물을 찾는 메서드
+  // READ: 모든 활동 게시물을 찾는 메서드 (테스트용)
   async findAllActivities(): Promise<Activities[]> {
     // activitiesRepository.find() 메서드를 사용하여 모든 활동 엔티티를 찾아 반환
     return this.activitiesRepository.find();
@@ -46,7 +46,7 @@ export class ActivitiesService {
     });
   }
 
-  // READ: 특정 활동 게시물을 찾는 메서드 (클릭 시 활동 게시물 전체를 보여줌)
+  // READ: 특정 활동 게시물을 찾는 메서드 (클릭 시 게시물 전체를 보여줌)
   async findActivityById(id: number): Promise<Activities> {
     return this.activitiesRepository.findOneBy({ id });
   }
@@ -56,7 +56,7 @@ export class ActivitiesService {
   // UPDATE: 활동 게시물을 업데이트하는 메서드
   async updateActivity(
     id: number,
-    activitiesData: Activities,
+    activitiesData: Partial<Activities>,
   ): Promise<Activities> {
     // 주어진 ID를 사용하여 엔티티를 업데이트
     await this.activitiesRepository.update(id, activitiesData);
