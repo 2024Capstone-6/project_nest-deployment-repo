@@ -6,10 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { JapanModule } from './japan/japan.module';
 
 // 엔티티 import
-import { Activities } from './japan/entities/activities/activities.entity';
-
-// import { AppController } from './app.controller';
-// import { AppService } from './app.service';
+import { Activities } from './japan/entities/activities.entity';
 
 @Module({
   imports: [
@@ -27,7 +24,5 @@ import { Activities } from './japan/entities/activities/activities.entity';
     }),
     JapanModule, // 모듈 import
   ],
-  // controllers: [AppController],
-  // providers: [AppService],
 })
 export class AppModule {}
