@@ -10,21 +10,23 @@ import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { BoardModule } from './board/board.module';
+import { Board } from './board/entities/board.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }), // .env 파일을 불러오기 위한 설정
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.DATABASE_HOST,
+      host: 'db',
       port: parseInt(process.env.DATABASE_PORT, 10), // 10진수로 변환
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [], // 엔티티를 수동으로 로드
+      entities: [Board], // 엔티티를 수동으로 로드
       // 본인 엔티티 import 후 넣어서 작업하세요
       synchronize: true, // 데이터베이스 스키마 동기화
-    }),
+    }), BoardModule,
     // JapanModule, // 모듈 import
   ],
   controllers: [AppController],
