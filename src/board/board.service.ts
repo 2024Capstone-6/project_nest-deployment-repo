@@ -22,19 +22,19 @@ export class BoardService {
     return await this.repository.save(newBoard);
   }
 
-  findAll() {
-    return `이걸 이제야 성공하네`;
+  async findAll() {
+    return  await this.repository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} board`;
+  async findOne(id: number) {
+    return await this.repository.findBy({id:id});
   }
 
-  update(id: number, updateBoardDto: UpdateBoardDto) {
-    return `This action updates a #${id} board`;
+  async update(id: number, updateBoardDto: UpdateBoardDto) {
+    return await this.repository.update({id:id},updateBoardDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} board`;
+  async remove(id: number) {
+    return await this.repository.delete({id:id});
   }
 }

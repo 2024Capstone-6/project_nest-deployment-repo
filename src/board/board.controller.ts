@@ -13,22 +13,25 @@ export class BoardController {
   }
 
   @Get()
-  findAll() {
-    return this.boardService.findAll();
+  async findAll() {
+    return await this.boardService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.boardService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.boardService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBoardDto: UpdateBoardDto) {
-    return this.boardService.update(+id, updateBoardDto);
+  async update(@Param('id') id: string, @Body() updateBoardDto: UpdateBoardDto) {
+    await this.boardService.update(+id, updateBoardDto);
+    return {
+      message:'수정성공'
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.boardService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.boardService.remove(+id);
   }
 }
