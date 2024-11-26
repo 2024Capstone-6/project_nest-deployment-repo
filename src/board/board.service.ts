@@ -27,7 +27,7 @@ export class BoardService {
   }
 
   async findOne(id: number) {
-    return await this.repository.findBy({id:id});
+    return await this.repository.findOneBy({id:id});
   }
 
   async update(id: number, updateBoardDto: UpdateBoardDto) {
