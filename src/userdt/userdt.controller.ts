@@ -1,35 +1,14 @@
 import { Controller, Get, Post, Body, Query, Patch, Param, Delete, UnauthorizedException } from '@nestjs/common';
 import { UserdtService } from './userdt.service';
 import { CreateUserdtDto } from './dto/create-userdt.dto';
+// import { AuthService } from '../auth/auth.service';
 
 @Controller('userdt')
 export class UserdtController {
-  constructor(private readonly userdtService: UserdtService) {}
-
-  /* @Post()
-  create(@Body() createUserdtDto: CreateUserdtDto) {
-    return this.userdtService.create(createUserdtDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.userdtService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userdtService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserdtDto: UpdateUserdtDto) {
-    return this.userdtService.update(+id, updateUserdtDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userdtService.remove(+id);
-  } */
+  constructor(
+    private readonly userdtService: UserdtService,
+    // private readonly authService: AuthService,
+  ) {}
 
   // 5. 클라이언트에서 데이터를 받을 엔드포인트 생성
   @Post()
@@ -56,13 +35,15 @@ export class UserdtController {
   // 로그인 API
   @Post('login')
   async login(@Body() body: { email: string; password: string }) {
-    const { email, password } = body;
+    const { email, password } = body; 
+    // , access_token: token.access_token
 
-    const user = await this.userdtService.validateUser(email, password);
+    const user = await this.userdtService.validateUser(body.email, body.password);
     if (!user) {
       throw new UnauthorizedException('Invalid email or password');
     }
 
+    // const token = await this.authService.login(user);
     return { message: 'Login successful', user };
   }
 

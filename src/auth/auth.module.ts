@@ -1,20 +1,20 @@
 /* import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthService } from './auth.service';
-import { UserdtModule } from '../userdt/userdt.module'; // UserdtModule import
 import { PassportModule } from '@nestjs/passport';
+import { UserdtModule } from '../userdt/userdt.module';
+import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
-    UserdtModule, // User Service 사용을 위해
-    PassportModule, // Passport를 사용
+    UserdtModule,
+    PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET || 'defaultSecret', // .env에 추가 가능
-      signOptions: { expiresIn: '1h' }, // 토큰 유효기간 설정
+      secret: process.env.JWT_SECRET || 'yourSecretKey', // JWT 비밀 키 설정
+      signOptions: { expiresIn: '1h' }, // 토큰 만료 시간 설정
     }),
   ],
   providers: [AuthService, JwtStrategy],
-  exports: [AuthService], // 다른 모듈에서 사용 가능하게 export
+  exports: [AuthService],
 })
 export class AuthModule {} */

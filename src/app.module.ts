@@ -30,7 +30,7 @@ import { Userdt } from './userdt/entities/userdt.entity'
       entities: [Userdt], // 엔티티를 수동으로 로드
       // 본인 엔티티 import 후 넣어서 작업하세요
       synchronize: true, // 데이터베이스 스키마 동기화
-    }), UserdtModule
+    }), UserdtModule,
     // JapanModule, // 모듈 import
   ],
   controllers: [AppController],
