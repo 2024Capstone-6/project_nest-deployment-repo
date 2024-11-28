@@ -9,6 +9,7 @@ export class AppController {
 
   @Get('api/status')
   getStatus() {
+    console.log(process.env.DATABASE_USER)
     return { message: 'API is running' };
   }
 }
