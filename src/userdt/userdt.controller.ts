@@ -1,13 +1,13 @@
 import { Controller, Get, Post, Body, Query, Patch, Param, Delete, UnauthorizedException } from '@nestjs/common';
 import { UserdtService } from './userdt.service';
 import { CreateUserdtDto } from './dto/create-userdt.dto';
-// import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../auth/auth.service'; // 추가
 
 @Controller('userdt')
 export class UserdtController {
   constructor(
     private readonly userdtService: UserdtService,
-    // private readonly authService: AuthService,
+    private readonly authService: AuthService, // 추가
   ) {}
 
   // 5. 클라이언트에서 데이터를 받을 엔드포인트 생성
@@ -36,15 +36,22 @@ export class UserdtController {
   @Post('login')
   async login(@Body() body: { email: string; password: string }) {
     const { email, password } = body; 
-    // , access_token: token.access_token
 
-    const user = await this.userdtService.validateUser(body.email, body.password);
+    const user = await this.userdtService.validateUser(email, password);
     if (!user) {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    // const token = await this.authService.login(user);
-    return { message: 'Login successful', user };
+    const { access_token } = await this.authService.login(user); // 로그인 후 토큰 생성
+    return {
+      message: 'Login successful',
+      access_token, // JWT 토큰을 함께 반환
+      user: {
+        email: user.email,
+        id: user.id,
+        nickname: user.nickname,
+      },
+    };
   }
 
   // 닉네임 중복 확인 엔드포인트 추가
