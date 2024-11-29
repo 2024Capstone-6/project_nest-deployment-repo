@@ -18,10 +18,10 @@ export class SpecialController {
     return this.specialService.findAll();
   }
 
-  @Get('auth')
-  findauth(){
-    return this.specialService.findauth();
-  }
+  // @Get('auth')
+  // findauth(){
+  //   return this.specialService.findauth();
+  // }
 
 
   @Get(':id')

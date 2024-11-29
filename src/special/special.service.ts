@@ -11,7 +11,7 @@ export class SpecialService {
   constructor(
     @InjectRepository(Special) 
     private specialRepository : Repository<Special>,
-    private jwtservice:JwtService
+    // private jwtservice:JwtService
   ){}
   
   async create(createSpecialDto: CreateSpecialDto) {
@@ -34,8 +34,8 @@ export class SpecialService {
     return await this.specialRepository.delete({id:id})
   }
 
-  async findauth(){
-    const auth = sessionStorage.getItem('access_token')
-    const access_data = this.jwtservice.verifyAsync(auth,{secret:process.env.ACCESS_TOKEN})
-  }
+  // async findauth(){
+  //   const auth = sessionStorage.getItem('access_token')
+  //   const access_data = this.jwtservice.verifyAsync(auth,{secret:process.env.ACCESS_TOKEN})
+  // }
 }
