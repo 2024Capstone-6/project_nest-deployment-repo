@@ -10,4 +10,7 @@ export class Special {
 
   @Column()
   answer:string
+
+  @Column()
+  author:string
 }

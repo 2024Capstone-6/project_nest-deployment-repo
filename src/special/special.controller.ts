@@ -18,9 +18,15 @@ export class SpecialController {
     return this.specialService.findAll();
   }
 
+  @Get('auth')
+  findauth(){
+    return this.specialService.findauth();
+  }
+
+
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.specialService.findOne(+id);
+    return this.specialService.findOne(+id); 
   }
 
   @Put(':id')

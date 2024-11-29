@@ -4,12 +4,14 @@ import { UpdateSpecialDto } from './dto/update-special.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Special } from './entities/special.entity';
 import { Repository } from 'typeorm';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class SpecialService {
   constructor(
     @InjectRepository(Special) 
-    private specialRepository : Repository<Special>
+    private specialRepository : Repository<Special>,
+    private jwtservice:JwtService
   ){}
   
   async create(createSpecialDto: CreateSpecialDto) {
@@ -25,10 +27,15 @@ export class SpecialService {
   }
 
   async update(id: number, updateSpecialDto: UpdateSpecialDto) {
-    return await this.specialRepository.update(id,updateSpecialDto)
+    return await this.specialRepository.update({id:id},updateSpecialDto)
   }
 
   async remove(id: number) {
-    return await this.specialRepository.delete(id)
+    return await this.specialRepository.delete({id:id})
+  }
+
+  async findauth(){
+    const auth = sessionStorage.getItem('access_token')
+    const access_data = this.jwtservice.verifyAsync(auth,{secret:process.env.ACCESS_TOKEN})
   }
 }
