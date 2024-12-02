@@ -26,7 +26,7 @@ export class SpecialController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.specialService.findOne(+id); 
+    return this.specialService.findOne(id); 
   }
 
   @Put(':id')

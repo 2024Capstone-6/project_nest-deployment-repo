@@ -8,4 +8,6 @@ export class CreateSpecialDto {
   Question : string
 
   answer : string
+
+  author:string
 }
