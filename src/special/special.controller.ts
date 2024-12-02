@@ -17,17 +17,16 @@ export class SpecialController {
   findAll() {
     return this.specialService.findAll();
   }
-
+  
+  @Get()
+  findOne(@Param('access_token') id: string) {
+    return this.specialService.findOne(id); 
+  }
   // @Get('auth')
   // findauth(){
   //   return this.specialService.findauth();
   // }
 
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.specialService.findOne(id); 
-  }
 
   @Put(':id')
   update(@Param('id') id: string, @Body() updateSpecialDto: UpdateSpecialDto) {

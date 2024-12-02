@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SpecialModule } from './special/special.module';
 import { Special } from './special/entities/special.entity';
+import { JwtModule } from '@nestjs/jwt';
 
 
 @Module({
