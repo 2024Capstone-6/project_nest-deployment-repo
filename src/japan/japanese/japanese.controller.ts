@@ -6,8 +6,10 @@ import {
   Delete,
   Body,
   Param,
+  Query,
 } from '@nestjs/common';
 import { JapaneseService } from './japanese.service';
+import { Japanese } from '../entities/japanese.entity';
 
 import { CreateJapaneseDto } from './dto/create-activity.dto';
 import { UpdateJapaneseDto } from './dto/update-activity.dto';
@@ -28,10 +30,13 @@ export class JapaneseController {
     return this.japaneseService.findAllJapanese();
   }
 
-  // READ - ID로 특정 일본어 게시물 가져오기
-  @Get(':id')
-  async findJapaneseById(@Param('id') id: number) {
-    return this.japaneseService.findJapaneseById(+id);
+  // READ - 페이지네이션 일본어 게시물 가져오기
+  @Get('page')
+  async findJapaneseWithPagination(
+    @Query('page') page: number,
+  ): Promise<Japanese[]> {
+    const limit = 1; // 한 페이지당 하나의 게시물
+    return this.japaneseService.findJapaneseWithPagination(page, limit);
   }
 
   // READ - 이메일이나 제목으로 일본어 게시물 검색 (개발 예정)

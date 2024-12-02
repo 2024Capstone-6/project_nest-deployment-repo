@@ -29,9 +29,17 @@ export class JapaneseService {
     return this.japaneseRepository.find();
   }
 
-  // READ - ID로 특정 일본어 게시물 가져오기
-  async findJapaneseById(id: number): Promise<Japanese> {
-    return this.japaneseRepository.findOneBy({ id });
+  // READ - 페이지네이션 일본어 게시물 가져오기
+  async findJapaneseWithPagination(
+    page: number,
+    limit: number,
+  ): Promise<Japanese[]> {
+    const skip = (page - 1) * limit;
+
+    return this.japaneseRepository.find({
+      skip,
+      take: limit,
+    });
   }
 
   // READ - 이메일이나 제목으로 일본어 게시물 검색 (개발 예정)
@@ -42,7 +50,7 @@ export class JapaneseService {
     updateJapaneseDto: UpdateJapaneseDto,
   ): Promise<Japanese> {
     await this.japaneseRepository.update(id, updateJapaneseDto);
-    return this.findJapaneseById(id);
+    return this.japaneseRepository.findOneBy({ id });
   }
 
   // DELETE
