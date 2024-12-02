@@ -67,15 +67,7 @@ export class ActivitiesService {
     // 업데이트할 활동 게시물의 데이터를 받아옴
     updateActivityDto: UpdateActivityDto,
   ): Promise<Activities> {
-    // 업데이트할 활동 게시물의 데이터를 사용하여 엔티티 생성
-    const activity = {
-      ...updateActivityDto,
-      // 날짜 데이터 형식 변환
-      date: updateActivityDto.date
-        ? new Date(updateActivityDto.date)
-        : undefined,
-    };
-    await this.activitiesRepository.update(id, activity);
+    await this.activitiesRepository.update(id, updateActivityDto);
     return this.findActivityById(id);
   }
 

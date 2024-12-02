@@ -54,7 +54,7 @@ export class ActivitiesController {
   // READ 메서드 - ID로 특정 활동 가져오기
   @Get(':id')
   // URL의 매개변수에서 ID를 받아 findActivityById() 메서드를 호출
-  async findActivityById(@Param('id') id: string) {
+  async findActivityById(@Param('id') id: number) {
     // ActivitiesService의 findActivityById() 메서드를 호출하여 특정 활동을 가져오고, 반환
     return this.activitiesService.findActivityById(+id);
   }
