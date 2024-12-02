@@ -12,6 +12,7 @@ export class MemberService {
     private readonly s3Service: S3Service,
   ) {}
 
+  // 멤버 생성
   async createMember(body: any, file: Express.Multer.File) {
     const profileImageUrl = file
       ? await this.s3Service.uploadFile(file)
@@ -25,10 +26,12 @@ export class MemberService {
     return this.memberRepository.save(newMember);
   }
 
+  // 모든 멤버 조회
   async getMembers() {
     return this.memberRepository.find();
   }
 
+  // 멤버 업데이트
   async updateMember(id: number, body: any, file: Express.Multer.File) {
     const existingMember = await this.memberRepository.findOne({ where: { id } });
 
@@ -49,6 +52,7 @@ export class MemberService {
     return this.memberRepository.save(updatedMember);
   }
 
+  // 멤버 삭제
   async deleteMember(id: number) {
     const result = await this.memberRepository.delete({ id });
     if (result.affected === 0) {
