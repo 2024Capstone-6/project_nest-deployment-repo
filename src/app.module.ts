@@ -12,6 +12,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BoardModule } from './board/board.module';
 import { Board } from './board/entities/board.entity';
+import { AwsModule } from './aws/aws.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { Board } from './board/entities/board.entity';
       // 본인 엔티티 import 후 넣어서 작업하세요
       synchronize: true, // 데이터베이스 스키마 동기화
     }), BoardModule,
+    AwsModule,
     // JapanModule, // 모듈 import
   ],
   controllers: [AppController],

@@ -1,5 +1,7 @@
 export class CreateBoardDto {
-  title:string
+  title:string;
 
-  content:string
+  content:string;
+
+  imgurl?:string;
 }
