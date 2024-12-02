@@ -14,13 +14,12 @@ import { Japanese } from './japan/entities/japanese.entity';
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATABASE_HOST,
-      port: parseInt(process.env.DATABASE_PORT, 10), // 10진수로 변환
+      port: +process.env.DATABASE_PORT,
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [Activities, Japanese], // 엔티티를 수동으로 로드
-      // 본인 엔티티 import 후 넣어서 작업하세요
-      synchronize: true, // 데이터베이스 스키마 동기화
+      entities: [Activities, Japanese],
+      synchronize: true,
     }),
     JapanModule, // 모듈 import
   ],
