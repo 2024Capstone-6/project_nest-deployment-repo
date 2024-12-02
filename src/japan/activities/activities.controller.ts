@@ -13,6 +13,10 @@ import { ActivitiesService } from './activities.service';
 // Activities 엔티티를 가져옴. 이 엔티티는 데이터베이스 테이블과 매핑
 import { Activities } from '../entities/activities.entity';
 
+// DTO 클래스를 가져옴
+import { CreateActivityDto } from './dto/create-activity.dto';
+import { UpdateActivityDto } from './dto/update-activity.dto';
+
 @Controller('activities')
 // 'activities' 경로와 관려된 요청을 처리
 export class ActivitiesController {
@@ -21,10 +25,10 @@ export class ActivitiesController {
 
   // CREATE 메서드
   @Post()
-  async createActivity(@Body() activitiesData: Activities) {
+  async createActivity(@Body() createActivityDto: CreateActivityDto) {
     // HTTP POST 요청을 처리하는 메서드
     // 요청 본문의 데이터를 받아 createActivity() 메서드를 호출
-    return this.activitiesService.createActivity(activitiesData);
+    return this.activitiesService.createActivity(createActivityDto);
   }
 
   // READ 메서드 - 모든 활동 가져오기
@@ -61,11 +65,12 @@ export class ActivitiesController {
   @Patch(':id')
   async updateActivity(
     // URL의 매개변수에서 ID를 받아 updateActivity() 메서드를 호출
-    @Param('id') id: string,
-    @Body() activitiesData: Activities,
+    @Param('id') id: number,
+    // 요청 본문의 데이터를 받아 updateActivity() 메서드를 호출
+    @Body() updateActivityDto: UpdateActivityDto,
   ) {
     // ActivitiesService의 updateActivity() 메서드를 호출하여 활동을 업데이트하고, 반환
-    return this.activitiesService.updateActivity(+id, activitiesData);
+    return this.activitiesService.updateActivity(+id, updateActivityDto);
   }
 
   // DELETE 메서드
