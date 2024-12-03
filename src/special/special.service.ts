@@ -23,12 +23,16 @@ export class SpecialService {
     return await this.specialRepository.find()
   }
 
-  async findOne(id: string) {
-    console.log(id)
-    const token = await this.jwtservice.verifyAsync(id,{secret:process.env.JWT_SECRET})
-    return await this.specialRepository.findOne({where: {author: token.nickname}})
-
-    // return await this.specialRepository.findOne({where:{id:id}})
+  async findOne(token: string) {
+    try {
+      const author = await this.jwtservice.verify(token, { secret: process.env.JET_SECRET}) ;  
+      
+      // return await this.specialRepository.findOne({ where: { author: author.nickname }});
+      return author
+    } catch (error) {
+      console.error('Invalid token', error);
+      throw new Error('Invalid token or authentication error');
+    }
   }
 
   async update(id: number, updateSpecialDto: UpdateSpecialDto) {

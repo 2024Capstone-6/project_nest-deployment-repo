@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Headers } from '@nestjs/common';
 import { SpecialService } from './special.service';
 import { CreateSpecialDto } from './dto/create-special.dto';
 import { UpdateSpecialDto } from './dto/update-special.dto';
@@ -18,9 +18,9 @@ export class SpecialController {
     return this.specialService.findAll();
   }
   
-  @Get()
-  findOne(@Param('access_token') id: string) {
-    return this.specialService.findOne(id); 
+  @Get('gettoken')
+  findOne(@Headers('access_token') token: string) {
+    return this.specialService.findOne(token); 
   }
   // @Get('auth')
   // findauth(){
@@ -30,6 +30,7 @@ export class SpecialController {
 
   @Put(':id')
   update(@Param('id') id: string, @Body() updateSpecialDto: UpdateSpecialDto) {
+    console.log("jwt",process.env.JWT_SECRET)
     return this.specialService.update(+id, updateSpecialDto);
   }
 

@@ -1,13 +1,19 @@
-import { IsString, Length } from "class-validator"
+import { IsNotEmpty, IsString, Length } from "class-validator"
 
 
 export class CreateSpecialDto {
 
-  @Length(5,100)
   @IsString()
+  @IsNotEmpty()
+  @Length(2,100)
   Question : string
 
+  @IsString()
+  @IsNotEmpty()
+  @Length(2,100)
   answer : string
 
+  @IsString()
+  @IsNotEmpty()
   author:string
 }
