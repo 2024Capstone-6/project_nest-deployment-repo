@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserdtDto } from './dto/create-userdt.dto';
 import { Userdt } from './entities/userdt.entity';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UserdtService {
@@ -15,7 +15,10 @@ export class UserdtService {
 
   async create(createUserdtDto: CreateUserdtDto): Promise<Userdt> {
     const saltOrRounds = 10;
-    const hashedPassword = await bcrypt.hash(createUserdtDto.password, saltOrRounds);
+    const hashedPassword = await bcrypt.hash(
+      createUserdtDto.password,
+      saltOrRounds,
+    );
 
     const user = this.userdtRepository.create({
       ...createUserdtDto,
@@ -37,25 +40,29 @@ export class UserdtService {
     }
     return null; // 인증 실패
   }
-  
+
   async findByNickname(nickname: string): Promise<Userdt | undefined> {
     return this.userdtRepository.findOne({ where: { nickname } });
   }
 
   async findByEmail(email: string): Promise<Userdt | undefined> {
     return this.userdtRepository.findOne({ where: { email } });
-  } 
+  }
 
   // nickname 중복 확인 로직 추가
   async isNicknameAvailable(nickname: string): Promise<boolean> {
-    const isAvailable = await this.userdtRepository.findOne({ where: { nickname } });
-    console.log('Nickname Query Result:', isAvailable)
+    const isAvailable = await this.userdtRepository.findOne({
+      where: { nickname },
+    });
+    console.log('Nickname Query Result:', isAvailable);
     return !isAvailable;
   }
 
   // email 중복 확인 로직 추가
   async isEmailAvailable(email: string): Promise<boolean> {
-    const isAvailable = await this.userdtRepository.findOne({ where: { email } });
+    const isAvailable = await this.userdtRepository.findOne({
+      where: { email },
+    });
     return !isAvailable;
   }
 }

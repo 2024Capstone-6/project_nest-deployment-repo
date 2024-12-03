@@ -7,12 +7,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Userdt } from 'src/userdt/entities/userdt.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-@Module({ // 인증 관련 로직 관리 모듈
+@Module({
+  // 인증 관련 로직 관리 모듈
   imports: [
     ConfigModule,
     TypeOrmModule.forFeature([Userdt]),
-    forwardRef(() => UserdtModule),  // 순환 의존성 해결 
-    JwtModule.registerAsync({ // 비동기로 JwtModule을 설정
+    forwardRef(() => UserdtModule), // 순환 의존성 해결
+    JwtModule.registerAsync({
+      // 비동기로 JwtModule을 설정
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({

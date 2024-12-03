@@ -13,6 +13,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    return { userId: payload.sub, email: payload.email, nickname: payload.nickname }; // JWT가 유효한 경우 호출되는 메서드로, payload는 디코딩된 JWT의 내용
+    return {
+      userId: payload.sub,
+      email: payload.email,
+      nickname: payload.nickname,
+    }; // JWT가 유효한 경우 호출되는 메서드로, payload는 디코딩된 JWT의 내용
   }
 }
