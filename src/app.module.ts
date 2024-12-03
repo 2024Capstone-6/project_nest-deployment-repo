@@ -13,6 +13,8 @@ import { AppService } from './app.service';
 import { BoardModule } from './board/board.module';
 import { Board } from './board/entities/board.entity';
 import { AwsModule } from './aws/aws.module';
+import { ChatModule } from './chat/chat.module';
+import { Chat } from './chat/entities/chat.entity';
 
 @Module({
   imports: [
@@ -24,11 +26,12 @@ import { AwsModule } from './aws/aws.module';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [Board], // 엔티티를 수동으로 로드
+      entities: [Board,Chat], // 엔티티를 수동으로 로드
       // 본인 엔티티 import 후 넣어서 작업하세요
       synchronize: true, // 데이터베이스 스키마 동기화
     }), BoardModule,
     AwsModule,
+    ChatModule,
     // JapanModule, // 모듈 import
   ],
   controllers: [AppController],

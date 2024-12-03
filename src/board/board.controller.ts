@@ -50,8 +50,8 @@ export class BoardController {
   }
 
   @Patch(':id')
-@UseInterceptors(FileInterceptor('file'))
-async update(
+  @UseInterceptors(FileInterceptor('file'))
+  async update(
   @Param('id') id: string,
   @Body() updateBoardDto: UpdateBoardDto,
   @UploadedFile() file: Express.Multer.File
