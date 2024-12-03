@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
+import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 
-// 모듈 import
 import { JapanModule } from './japan/japan.module';
+import { UserdtModule } from './userdt/userdt.module';
 
-// 엔티티 import
+import { Userdt } from './userdt/entities/userdt.entity'
 import { Activities } from './japan/entities/activities.entity';
 import { Japanese } from './japan/entities/japanese.entity';
 @Module({
@@ -18,10 +19,11 @@ import { Japanese } from './japan/entities/japanese.entity';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [Activities, Japanese],
+      entities: [Userdt, Activities, Japanese],
       synchronize: true,
     }),
-    JapanModule, // 모듈 import
+    UserdtModule, JapanModule, // 모듈 import
   ],
 })
+
 export class AppModule {}
