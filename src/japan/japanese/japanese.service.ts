@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Japanese } from '../entities/japanese.entity';
@@ -43,6 +43,15 @@ export class JapaneseService {
   }
 
   // READ - 이메일이나 제목으로 일본어 게시물 검색 (개발 예정)
+
+  // READ - 특정 ID의 게시물 찾기
+  async findOne(id: number): Promise<Japanese> {
+    const japanese = await this.japaneseRepository.findOneBy({ id });
+    if (!japanese) {
+      throw new NotFoundException(`Japanese post with ID ${id} not found`);
+    }
+    return japanese;
+  }
 
   // UPDATE
   async updateJapanese(

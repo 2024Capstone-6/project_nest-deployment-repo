@@ -41,6 +41,12 @@ export class JapaneseController {
 
   // READ - 이메일이나 제목으로 일본어 게시물 검색 (개발 예정)
 
+  // READ - 특정 ID의 게시물 가져오기
+  @Get(':id')
+  async findOne(@Param('id') id: number) {
+    return this.japaneseService.findOne(+id);
+  }
+
   // UPDATE
   @Patch(':id')
   async updateJapanese(
