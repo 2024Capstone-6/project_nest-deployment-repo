@@ -51,4 +51,25 @@ export class AwsS3Service {
       throw error;
     }
   }
+
+  // S3에서 이미지를 삭제하는 메서드 추가
+  async deleteImage(imageUrl: string): Promise<void> {
+    if (!this.bucketName) {
+      throw new Error('AWS_BUCKET_NAME is not defined');
+    }
+
+    const key = imageUrl.split('.com/')[1];
+
+    const params = {
+      Bucket: this.bucketName,
+      Key: key,
+    };
+
+    try {
+      await this.s3.deleteObject(params).promise();
+    } catch (error) {
+      console.error('S3 Delete Error:', error);
+      throw error;
+    }
+  }
 }

@@ -76,16 +76,44 @@ export class ActivitiesController {
 
   // 활동 수정
   @Patch(':id')
+  @UseInterceptors(FileInterceptor('image'))
   async updateActivity(
     @Param('id') id: number,
     @Body() updateActivityDto: UpdateActivityDto,
+    @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.activitiesService.updateActivity(+id, updateActivityDto);
+    let imageUrl = null;
+
+    if (file) {
+      // 기존 이미지가 있다면 삭제
+      const existingActivity =
+        await this.activitiesService.findActivityById(id);
+      if (existingActivity?.mediaUrl) {
+        await this.awsS3Service.deleteImage(existingActivity.mediaUrl);
+      }
+
+      // 새 이미지 업로드
+      imageUrl = await this.awsS3Service.uploadImage(file);
+    }
+
+    return this.activitiesService.updateActivity(+id, {
+      ...updateActivityDto,
+      ...(imageUrl && { mediaUrl: imageUrl }),
+    });
   }
 
   // 활동 삭제
   @Delete(':id')
   async removeActivity(@Param('id') id: string) {
+    // 삭제 전 활동 정보 조회
+    const activity = await this.activitiesService.findActivityById(+id);
+
+    // S3에서 이미지 삭제
+    if (activity?.mediaUrl) {
+      await this.awsS3Service.deleteImage(activity.mediaUrl);
+    }
+
+    // DB에서 활동 삭제
     return this.activitiesService.removeActivity(+id);
   }
 }
