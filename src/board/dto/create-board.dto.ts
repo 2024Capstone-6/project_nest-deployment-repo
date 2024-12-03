@@ -4,4 +4,6 @@ export class CreateBoardDto {
   content:string;
 
   imgurl?:string;
+
+  date:string;
 }

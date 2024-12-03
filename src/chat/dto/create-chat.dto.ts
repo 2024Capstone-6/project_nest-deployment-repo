@@ -4,4 +4,6 @@ export class CreateChatDto {
   imgurl?:string;
 
   boardId:number;
+
+  date:string;
 }

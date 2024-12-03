@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UploadedFile, UseInterceptors, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { BoardService } from './board.service';
 import { AwsService } from '../aws/aws.service';
@@ -17,19 +17,19 @@ export class BoardController {
   @UseInterceptors(FileInterceptor('file'))
   async create(
     @Body() createBoardDto: CreateBoardDto,
-    @UploadedFile() file: Express.Multer.File
+    @UploadedFile() file?: Express.Multer.File // 파일이 선택 사항임을 명시
   ) {
-    if (!file) {
-      throw new BadRequestException('파일이 업로드되지 않았습니다.');
-    }
+    let imgUrl = null;
 
-    // 이미지를 AWS S3에 업로드
-    const imgUrl = await this.awsService.uploadImage(file);
+    if (file) {
+      // 이미지를 AWS S3에 업로드
+      imgUrl = await this.awsService.uploadImage(file);
+    }
 
     // DTO 또는 데이터베이스 항목에 이미지 URL 추가
     const boardData = {
       ...createBoardDto,
-      imgurl : imgUrl,
+      imgurl: imgUrl,
     };
 
     // 이미지 URL과 함께 새로운 게시글 생성
@@ -52,22 +52,22 @@ export class BoardController {
   @Patch(':id')
   @UseInterceptors(FileInterceptor('file'))
   async update(
-  @Param('id') id: string,
-  @Body() updateBoardDto: UpdateBoardDto,
-  @UploadedFile() file: Express.Multer.File
-) {
-  if (file) {
-    // 이미지를 AWS S3에 업로드
-    const imageUrl = await this.awsService.uploadImage(file);
-    // DTO에 이미지 URL 추가
-    updateBoardDto.imgurl = imageUrl;
-  }
+    @Param('id') id: string,
+    @Body() updateBoardDto: UpdateBoardDto,
+    @UploadedFile() file?: Express.Multer.File // 파일이 선택 사항임을 명시
+  ) {
+    if (file) {
+      // 이미지를 AWS S3에 업로드
+      const imageUrl = await this.awsService.uploadImage(file);
+      // DTO에 이미지 URL 추가
+      updateBoardDto.imgurl = imageUrl;
+    }
 
-  await this.boardService.update(+id, updateBoardDto);
-  return {
-    message: '수정 성공',
-  };
-}
+    await this.boardService.update(+id, updateBoardDto);
+    return {
+      message: '수정 성공',
+    };
+  }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {

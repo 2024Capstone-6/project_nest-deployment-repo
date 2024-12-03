@@ -10,4 +10,6 @@ export class Board {
   content:string;
   @Column({ nullable: true })
   imgurl:string;
+  @Column()
+  date:string;
 }

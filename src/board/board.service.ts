@@ -5,14 +5,42 @@ import { Board } from './entities/board.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
+// const date = new Date();
+
+// const formattedDate = date.toLocaleString('ko-KR', {
+//   year: 'numeric',
+//   month: '2-digit',
+//   day: '2-digit',
+//   hour: '2-digit',
+//   minute: '2-digit',
+//   second: '2-digit'
+// });
+
+// const isoDate = date.toISOString();
+
 @Injectable()
 export class BoardService {
   constructor(
     @InjectRepository(Board) private repository: Repository<Board>,
   ) {}
 
+  // async create(createBoardDto: CreateBoardDto): Promise<Board> {
+  //   const newBoard = this.repository.create(createBoardDto);
+  //   return await this.repository.save(newBoard);
+  // }
+
   async create(createBoardDto: CreateBoardDto): Promise<Board> {
-    const newBoard = this.repository.create(createBoardDto);
+    const newBoard = this.repository.create({
+      ...createBoardDto,
+      date: new Date().toLocaleString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      }),
+    });
     return await this.repository.save(newBoard);
   }
 

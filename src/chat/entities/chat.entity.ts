@@ -10,4 +10,6 @@ export class Chat {
   imgurl:string;
   @Column()
   boardId: number; // 게시물 ID를 저장하는 컬럼 
+  @Column()
+  date: string;
 }

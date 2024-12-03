@@ -12,8 +12,23 @@ export class ChatService {
     private repository: Repository<Chat>,
   ) {}
 
+  // async create(createChatDto: CreateChatDto): Promise<Chat> {
+  //   const newChat = this.repository.create(createChatDto);
+  //   return await this.repository.save(newChat);
+  // }
+
   async create(createChatDto: CreateChatDto): Promise<Chat> {
-    const newChat = this.repository.create(createChatDto);
+    const newChat = this.repository.create({
+      ...createChatDto,
+      date: new Date().toLocaleString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      }),
+    });
     return await this.repository.save(newChat);
   }
 
