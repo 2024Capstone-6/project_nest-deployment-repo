@@ -64,7 +64,7 @@ export class ActivitiesController {
   async findActivitiesWithPagination(
     @Query('page') page: number,
     @Query('limit') limit: number,
-  ): Promise<Activities[]> {
+  ): Promise<{ items: Activities[]; total: number }> {
     return this.activitiesService.findActivitiesWithPagination(page, limit);
   }
 

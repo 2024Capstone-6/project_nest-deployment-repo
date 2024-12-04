@@ -34,7 +34,7 @@ export class JapaneseController {
   @Get('page')
   async findJapaneseWithPagination(
     @Query('page') page: number,
-  ): Promise<Japanese[]> {
+  ): Promise<{ items: Japanese[]; total: number }> {
     const limit = 1; // 한 페이지당 하나의 게시물
     return this.japaneseService.findJapaneseWithPagination(page, limit);
   }

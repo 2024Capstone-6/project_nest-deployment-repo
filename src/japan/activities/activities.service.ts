@@ -44,14 +44,16 @@ export class ActivitiesService {
   async findActivitiesWithPagination(
     page: number,
     limit: number,
-  ): Promise<Activities[]> {
-    // page와 limit을 사용하여 offset을 계산
+  ): Promise<{ items: Activities[]; total: number }> {
+    // 페이지네이션을 위한 오프셋 계산
     const offset = (page - 1) * limit;
-    // 페이지네이션을 적용하여 엔티티를 찾아 반환
-    return this.activitiesRepository.find({
+    // 데이터베이스에서 페이지네이션을 위한 데이터 조회
+    const [items, total] = await this.activitiesRepository.findAndCount({
       skip: offset, // 오프셋을 설정하여 특정 위치부터 데이터를 가져옴
       take: limit, // 한번에 가져올 데이터의 수를 설정
     });
+
+    return { items, total };
   }
 
   // READ: 특정 활동 게시물을 찾는 메서드 (클릭 시 게시물 전체를 보여줌)

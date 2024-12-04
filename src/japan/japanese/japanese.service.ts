@@ -33,13 +33,15 @@ export class JapaneseService {
   async findJapaneseWithPagination(
     page: number,
     limit: number,
-  ): Promise<Japanese[]> {
+  ): Promise<{ items: Japanese[]; total: number }> {
     const skip = (page - 1) * limit;
 
-    return this.japaneseRepository.find({
+    const [items, total] = await this.japaneseRepository.findAndCount({
       skip,
       take: limit,
     });
+
+    return { items, total };
   }
 
   // READ - 이메일이나 제목으로 일본어 게시물 검색 (개발 예정)
