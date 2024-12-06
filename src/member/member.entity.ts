@@ -1,26 +1,27 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-// 데이터베이스 테이블을 나타내는 엔티티 클래스
+// Member 엔티티는 데이터베이스의 'Member' 테이블을 표현하며,
+// 각각의 Column은 테이블의 필드로 매핑된다.
 @Entity()
 export class Member {
-  @PrimaryGeneratedColumn() // 기본 키로 사용될 자동 생성 ID
-  id: number;
+  @PrimaryGeneratedColumn()
+  id: number; // 자동 증가되는 Primary Key
 
-  @Column() // 이름 컬럼 (필수)
-  name: string;
+  @Column()
+  name: string; // 이름 필드 (필수)
 
-  @Column({ nullable: true }) // 역할 컬럼 (선택)
-  role: string;
+  @Column({ nullable: true })
+  role: string; // 역할 필드 (선택적)
 
-  @Column({ nullable: true }) // 프로필 이미지 URL 컬럼 (선택)
-  profileImage: string;
+  @Column({ nullable: true })
+  profileImage: string; // 프로필 이미지 URL 필드 (선택적)
 
-  @Column({ nullable: true }) // 코멘트 컬럼 (선택)
-  comment: string;
+  @Column({ nullable: true })
+  comment: string; // 코멘트 필드 (선택적)
 
-  @Column({ nullable: true }) // 이메일 컬럼 (선택)
-  email: string;
+  @Column({ nullable: true })
+  email: string; // 이메일 필드 (선택적)
 
-  @Column('simple-array', { nullable: true }) // 기술 스택 컬럼 (선택)
-  techStack: string[];
+  @Column('simple-array', { nullable: true })
+  techStack: string[]; // 기술 스택 배열 필드 (선택적)
 }
