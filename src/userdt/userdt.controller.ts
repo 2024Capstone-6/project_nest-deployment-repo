@@ -68,6 +68,12 @@ export class UserdtController {
     return { valid: isValid, available: isAvailable };
   }
 
+  // 비밀번호 유효성 검사 API 추가
+  @Get('check-password')
+  async checkPassword(@Query('password') password: string) {
+    const isValid = await this.userdtService.isPasswordValid(password);
+    return { valid: isValid };
+  }
 
   // 유효성 검사 API
   @Post()

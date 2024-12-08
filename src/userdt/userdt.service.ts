@@ -63,4 +63,13 @@ export class UserdtService {
     console.log('Email Validity:', isValid, 'Email Availability:', isAvailable);
     return { isValid, isAvailable };
   }
+
+  // 비밀번호 유효성 검사 로직 추가
+  async isPasswordValid(password: string): Promise<boolean> {
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,20}$/; // 최소 6자 ~ 최대 20자, 문자와 숫자 포함
+    const isValid = passwordRegex.test(password);
+    console.log('Password Validity:', isValid);
+    return isValid;
+  }
+  
 }
