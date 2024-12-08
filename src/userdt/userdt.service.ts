@@ -14,7 +14,7 @@ export class UserdtService {
   ) {}
 
   async create(createUserdtDto: CreateUserdtDto): Promise<Userdt> {
-    const saltOrRounds = 10;
+    const saltOrRounds = 10; // 해싱 강도 조절깂
     const hashedPassword = await bcrypt.hash(createUserdtDto.password, saltOrRounds);
 
     const user = this.userdtRepository.create({
@@ -47,15 +47,20 @@ export class UserdtService {
   } 
 
   // nickname 중복 확인 로직 추가
-  async isNicknameAvailable(nickname: string): Promise<boolean> {
-    const isAvailable = await this.userdtRepository.findOne({ where: { nickname } });
-    console.log('Nickname Query Result:', isAvailable)
-    return !isAvailable;
+  async isNicknameAvailable(nickname: string): Promise<{ isValid: boolean; isAvailable: boolean }> {
+    const nicknameRegex = /^[a-zA-Z가-힣0-9]{3,10}$/;
+    const isValid = nicknameRegex.test(nickname); // 정규식 유효성 검사
+    const isAvailable = !(await this.userdtRepository.findOne({ where: { nickname } })); // 중복 확인
+    console.log('Nickname Validity:', isValid, 'Nickname Availability:', isAvailable);
+    return { isValid, isAvailable };
   }
 
   // email 중복 확인 로직 추가
-  async isEmailAvailable(email: string): Promise<boolean> {
-    const isAvailable = await this.userdtRepository.findOne({ where: { email } });
-    return !isAvailable;
+  async isEmailAvailable(email: string): Promise<{ isValid: boolean; isAvailable: boolean }> {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // 이메일 정규식
+    const isValid = emailRegex.test(email); // 정규식 유효성 검사
+    const isAvailable = !(await this.userdtRepository.findOne({ where: { email } })); // 중복 확인
+    console.log('Email Validity:', isValid, 'Email Availability:', isAvailable);
+    return { isValid, isAvailable };
   }
 }

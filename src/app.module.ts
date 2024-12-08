@@ -13,7 +13,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserdtModule } from './userdt/userdt.module';
 import { Userdt } from './userdt/entities/userdt.entity'
-// import { AuthModule } from './auth/auth.module';
 
 @Module({
   // 6. DB 연결 설정

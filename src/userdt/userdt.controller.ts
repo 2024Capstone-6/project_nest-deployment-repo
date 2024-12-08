@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Query, Patch, Param, Delete, UnauthorizedException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Patch, Param, Delete, UsePipes, UnauthorizedException, ValidationPipe, BadRequestException } from '@nestjs/common';
 import { UserdtService } from './userdt.service';
 import { CreateUserdtDto } from './dto/create-userdt.dto';
 import { AuthService } from '../auth/auth.service'; // 추가
@@ -57,14 +57,23 @@ export class UserdtController {
   // 닉네임 중복 확인 엔드포인트 추가
   @Get('check-nickname')
   async checkNickname(@Query('nickname') nickname: string) {
-    const isAvailable = await this.userdtService.isNicknameAvailable(nickname);
-    return { available: isAvailable };
+    const { isValid, isAvailable } = await this.userdtService.isNicknameAvailable(nickname);
+    return { valid: isValid, available: isAvailable };
   }
 
   // 이메일 중복 확인 엔드포인트 추가
   @Get('check-email')
   async checkEmail(@Query('email') email: string) {
-    const isAvailable = await this.userdtService.isEmailAvailable(email);
-    return { available: isAvailable };
+    const { isValid, isAvailable } = await this.userdtService.isEmailAvailable(email);
+    return { valid: isValid, available: isAvailable };
+  }
+
+
+  // 유효성 검사 API
+  @Post()
+  @UsePipes(new ValidationPipe({ transform: true }))
+  async createUser(@Body() createUserdtDto: CreateUserdtDto) {
+    // 유효성 검사가 통과되면 여기서 로직 처리
+    return { message: 'User created successfully!' };
   }
 }
