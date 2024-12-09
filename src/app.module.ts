@@ -1,26 +1,39 @@
 import { Module } from '@nestjs/common';
+import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-
-import { MemberModule } from './member/member.module';
+import { JwtModule } from '@nestjs/jwt';
 import { S3Module } from './member/s3/s3.module';
+
+import { UserdtModule } from './userdt/userdt.module';
+import { MemberModule } from './member/member.module';
+import { JapanModule } from './japan/japan.module';
+import { SpecialModule } from './special/special.module';
+
+import { Userdt } from './userdt/entities/userdt.entity';
 import { Member } from './member/member.entity';
+import { Activities } from './japan/entities/activities.entity';
+import { Japanese } from './japan/entities/japanese.entity';
+import { Special } from './special/entities/special.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }), // 환경변수(.env)를 전역적으로 사용하기 위한 설정
     TypeOrmModule.forRoot({
-      type: 'mysql', // 사용할 데이터베이스 타입
-      host: process.env.DATABASE_HOST, // 데이터베이스 호스트
-      port: parseInt(process.env.DATABASE_PORT, 10), // 데이터베이스 포트 (10진수 변환)
-      username: process.env.DATABASE_USER, // 데이터베이스 사용자 이름
-      password: process.env.DATABASE_PASSWORD, // 데이터베이스 비밀번호
-      database: process.env.DATABASE_NAME, // 데이터베이스 이름
-      entities: [Member], // 사용할 엔티티 리스트
-      synchronize: true, // 엔티티와 데이터베이스 동기화 (주의: 프로덕션 환경에서는 false 추천)
+      type: 'mysql',
+      host: process.env.DATABASE_HOST,
+      port: +process.env.DATABASE_PORT,
+      username: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
+      entities: [Userdt, Member, Activities, Japanese, Special],
+      synchronize: true,
     }),
-    MemberModule, // 멤버 관련 기능을 포함한 모듈
-    S3Module, // S3 관련 기능을 포함한 모듈
-  ]
+    UserdtModule,
+    MemberModule,
+    S3Module, 
+    JapanModule,
+    SpecialModule, // 모듈 import
+  ],
 })
 export class AppModule {}
