@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserdtDto } from './dto/create-userdt.dto';
 import { Userdt } from './entities/userdt.entity';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UserdtService {
@@ -14,8 +14,12 @@ export class UserdtService {
   ) {}
 
   async create(createUserdtDto: CreateUserdtDto): Promise<Userdt> {
-    const saltOrRounds = 10; // 해싱 강도 조절깂
-    const hashedPassword = await bcrypt.hash(createUserdtDto.password, saltOrRounds);
+    ashedPassword = await bcrypt.hash(createUserdtDto.password, saltOrRounds);
+    const saltOrRounds = 10;
+    const hashedPassword = await bcrypt.hash(
+      createUserdtDto.password,
+      saltOrRounds,
+    );
 
     const user = this.userdtRepository.create({
       ...createUserdtDto,
@@ -37,14 +41,14 @@ export class UserdtService {
     }
     return null; // 인증 실패
   }
-  
+
   async findByNickname(nickname: string): Promise<Userdt | undefined> {
     return this.userdtRepository.findOne({ where: { nickname } });
   }
 
   async findByEmail(email: string): Promise<Userdt | undefined> {
     return this.userdtRepository.findOne({ where: { email } });
-  } 
+  }
 
   // nickname 중복 확인 로직 추가
   async isNicknameAvailable(nickname: string): Promise<{ isValid: boolean; isAvailable: boolean }> {
