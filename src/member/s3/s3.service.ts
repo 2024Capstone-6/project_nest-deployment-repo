@@ -1,6 +1,5 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
-import { v4 as uuid } from 'uuid';
 
 @Injectable() // S3와 관련된 작업을 처리하는 서비스
 export class S3Service {
@@ -8,9 +7,9 @@ export class S3Service {
 
   constructor() {
     this.s3 = new AWS.S3({
-      region: process.env.AWS_REGION, // AWS 리전
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID, // AWS 액세스 키
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, // AWS 시크릿 키
+      region: process.env.MEMBER_AWS_REGION, // AWS 리전
+      accessKeyId: process.env.MEMBER_AWS_ACCESS_KEY_ID, // AWS 액세스 키
+      secretAccessKey: process.env.MEMBER_AWS_SECRET_ACCESS_KEY, // AWS 시크릿 키
     });
   }
 
@@ -20,7 +19,7 @@ export class S3Service {
     const key = `${Date.now()}.${fileExtension}`; // 고유 파일 이름 생성
 
     const params = {
-      Bucket: process.env.AWS_S3_BUCKET, // S3 버킷 이름
+      Bucket: process.env.MEMBER_AWS_S3_BUCKET, // S3 버킷 이름
       Key: key, // S3에 저장될 파일 이름
       Body: file.buffer, // 파일 데이터
       ContentType: file.mimetype, // 파일 MIME 타입

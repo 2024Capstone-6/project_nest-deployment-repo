@@ -2,10 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { MemberModule } from './member/member.module';
-import { S3Module } from './s3/s3.module';
+import { S3Module } from './member/s3/s3.module';
 import { Member } from './member/member.entity';
 
 @Module({
@@ -23,8 +21,6 @@ import { Member } from './member/member.entity';
     }),
     MemberModule, // 멤버 관련 기능을 포함한 모듈
     S3Module, // S3 관련 기능을 포함한 모듈
-  ],
-  controllers: [AppController], // 앱의 기본 컨트롤러
-  providers: [AppService], // 서비스 제공
+  ]
 })
 export class AppModule {}

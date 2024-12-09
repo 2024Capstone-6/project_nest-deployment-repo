@@ -2,7 +2,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Member } from './member.entity';
-import { S3Service } from '../s3/s3.service';
+import { S3Service } from './s3/s3.service';
 
 @Injectable() // 서비스로 정의
 export class MemberService {
