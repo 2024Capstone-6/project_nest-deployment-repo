@@ -1,4 +1,17 @@
-import { Controller, Get, Post, Body, Query, Patch, Param, Delete, UsePipes, UnauthorizedException, ValidationPipe, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Query,
+  Patch,
+  Param,
+  Delete,
+  UsePipes,
+  UnauthorizedException,
+  ValidationPipe,
+  BadRequestException,
+} from '@nestjs/common';
 import { UserdtService } from './userdt.service';
 import { CreateUserdtDto } from './dto/create-userdt.dto';
 import { AuthService } from '../auth/auth.service'; // 추가
@@ -15,9 +28,9 @@ export class UserdtController {
   async create(@Body() createUserdtDto: CreateUserdtDto) {
     try {
       const newUser = await this.userdtService.create(createUserdtDto);
-      return { message: "User created successfully", user: newUser };
+      return { message: 'User created successfully', user: newUser };
     } catch (error) {
-      return { message: "Error creating user", error: error.message };
+      return { message: 'Error creating user', error };
     }
   }
 
@@ -28,14 +41,14 @@ export class UserdtController {
       const users = await this.userdtService.findAll();
       return { message: 'Users retrieved successfully', users };
     } catch (error) {
-      return { message: 'Error retrieving users', error: error.message };
+      return { message: 'Error retrieving users', error };
     }
   }
 
   // 로그인 API
   @Post('login')
   async login(@Body() body: { email: string; password: string }) {
-    const { email, password } = body; 
+    const { email, password } = body;
 
     const user = await this.userdtService.validateUser(email, password);
     if (!user) {
@@ -57,14 +70,16 @@ export class UserdtController {
   // 닉네임 중복 확인 엔드포인트 추가
   @Get('check-nickname')
   async checkNickname(@Query('nickname') nickname: string) {
-    const { isValid, isAvailable } = await this.userdtService.isNicknameAvailable(nickname);
+    const { isValid, isAvailable } =
+      await this.userdtService.isNicknameAvailable(nickname);
     return { valid: isValid, available: isAvailable };
   }
 
   // 이메일 중복 확인 엔드포인트 추가
   @Get('check-email')
   async checkEmail(@Query('email') email: string) {
-    const { isValid, isAvailable } = await this.userdtService.isEmailAvailable(email);
+    const { isValid, isAvailable } =
+      await this.userdtService.isEmailAvailable(email);
     return { valid: isValid, available: isAvailable };
   }
 
