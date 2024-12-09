@@ -12,9 +12,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BoardModule } from './board/board.module';
 import { Board } from './board/entities/board.entity';
-import { AwsModule } from './board_aws/aws.module';
-import { ChatModule } from './board_chat/chat.module';
-import { Chat } from './board_chat/entities/chat.entity';
+import { AwsModule } from './board/board_aws/aws.module';
+import { ChatModule } from './board/board_chat/chat.module';
+import { Chat } from './board/board_chat/entities/chat.entity';
 
 @Module({
   imports: [

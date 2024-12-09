@@ -10,12 +10,12 @@ export class AwsService {
 
   constructor(private configService: ConfigService) {
     this.s3Client = new AWS.S3({
-      region: this.configService.get<string>('AWS_REGION'),
-      accessKeyId: this.configService.get<string>('AWS_ACCESS_KEY_ID'),
-      secretAccessKey: this.configService.get<string>('AWS_SECRET_ACCESS_KEY'),
+      region: this.configService.get<string>('BOARD_AWS_REGION'),
+      accessKeyId: this.configService.get<string>('BOARD_AWS_ACCESS_KEY_ID'),
+      secretAccessKey: this.configService.get<string>('BOARD_AWS_SECRET_ACCESS_KEY'),
 
     });
-    this.bucketName = this.configService.get<string>('AWS_S3_BUCKET');
+    this.bucketName = this.configService.get<string>('BOARD_AWS_S3_BUCKET');
   }
 
   async uploadImage(file: Express.Multer.File): Promise<string> {
