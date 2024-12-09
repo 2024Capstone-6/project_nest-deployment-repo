@@ -8,7 +8,7 @@ import { JapanModule } from './japan/japan.module';
 import { UserdtModule } from './userdt/userdt.module';
 import { SpecialModule } from './special/special.module';
 
-import { Userdt } from './userdt/entities/userdt.entity'
+import { Userdt } from './userdt/entities/userdt.entity';
 import { Activities } from './japan/entities/activities.entity';
 import { Japanese } from './japan/entities/japanese.entity';
 import { Special } from './special/entities/special.entity';
@@ -23,11 +23,12 @@ import { Special } from './special/entities/special.entity';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [Userdt, Activities, Japanese],
+      entities: [Userdt, Activities, Japanese, Special],
       synchronize: true,
     }),
-    UserdtModule, JapanModule, SpecialModule // 모듈 import
+    UserdtModule,
+    JapanModule,
+    SpecialModule, // 모듈 import
   ],
 })
-
 export class AppModule {}
