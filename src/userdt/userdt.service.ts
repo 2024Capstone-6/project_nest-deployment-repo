@@ -14,6 +14,7 @@ export class UserdtService {
   ) {}
 
   async create(createUserdtDto: CreateUserdtDto): Promise<Userdt> {
+    ashedPassword = await bcrypt.hash(createUserdtDto.password, saltOrRounds);
     const saltOrRounds = 10;
     const hashedPassword = await bcrypt.hash(
       createUserdtDto.password,
@@ -50,19 +51,29 @@ export class UserdtService {
   }
 
   // nickname 중복 확인 로직 추가
-  async isNicknameAvailable(nickname: string): Promise<boolean> {
-    const isAvailable = await this.userdtRepository.findOne({
-      where: { nickname },
-    });
-    console.log('Nickname Query Result:', isAvailable);
-    return !isAvailable;
+  async isNicknameAvailable(nickname: string): Promise<{ isValid: boolean; isAvailable: boolean }> {
+    const nicknameRegex = /^[a-zA-Z가-힣0-9]{3,10}$/;
+    const isValid = nicknameRegex.test(nickname); // 정규식 유효성 검사
+    const isAvailable = !(await this.userdtRepository.findOne({ where: { nickname } })); // 중복 확인
+    console.log('Nickname Validity:', isValid, 'Nickname Availability:', isAvailable);
+    return { isValid, isAvailable };
   }
 
   // email 중복 확인 로직 추가
-  async isEmailAvailable(email: string): Promise<boolean> {
-    const isAvailable = await this.userdtRepository.findOne({
-      where: { email },
-    });
-    return !isAvailable;
+  async isEmailAvailable(email: string): Promise<{ isValid: boolean; isAvailable: boolean }> {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // 이메일 정규식
+    const isValid = emailRegex.test(email); // 정규식 유효성 검사
+    const isAvailable = !(await this.userdtRepository.findOne({ where: { email } })); // 중복 확인
+    console.log('Email Validity:', isValid, 'Email Availability:', isAvailable);
+    return { isValid, isAvailable };
   }
+
+  // 비밀번호 유효성 검사 로직 추가
+  async isPasswordValid(password: string): Promise<boolean> {
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,20}$/; // 최소 6자 ~ 최대 20자, 문자와 숫자 포함
+    const isValid = passwordRegex.test(password);
+    console.log('Password Validity:', isValid);
+    return isValid;
+  }
+  
 }
