@@ -27,11 +27,11 @@ import { Special } from './special/entities/special.entity';
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       entities: [Userdt, Member, Activities, Japanese, Special],
-      synchronize: true,
+      synchronize: true, // 개발 환경에서만 true로 설정, 제출 시 false로 변경해줘야 함
     }),
     UserdtModule,
     MemberModule,
-    S3Module, 
+    S3Module,
     JapanModule,
     SpecialModule, // 모듈 import
   ],
