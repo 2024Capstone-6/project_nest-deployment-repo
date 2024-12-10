@@ -13,24 +13,24 @@ export class UserdtController {
   // 5. 클라이언트에서 데이터를 받을 엔드포인트 생성
   @Post()
   async create(@Body() createUserdtDto: CreateUserdtDto) {
-    try {
+    // try {
       const newUser = await this.userdtService.create(createUserdtDto);
       return { message: "User created successfully", user: newUser };
-    } catch (error) {
+    } /* catch (error) {
       return { message: "Error creating user", error: error.message };
     }
-  }
+  } */
 
   // GET 요청 추가: 모든 사용자 정보 조회
   @Get()
   async findAll() {
-    try {
+    // try {
       const users = await this.userdtService.findAll();
       return { message: 'Users retrieved successfully', users };
-    } catch (error) {
+    } /* catch (error) {
       return { message: 'Error retrieving users', error: error.message };
-    }
-  }
+    } */
+  // }
 
   // 로그인 API
   @Post('login')

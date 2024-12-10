@@ -33,7 +33,9 @@ import { Special } from './special/entities/special.entity';
     MemberModule,
     S3Module, 
     JapanModule,
-    SpecialModule, // 모듈 import
+    SpecialModule,
+    PassportModule,
+    JwtModule, // 모듈 import
   ],
 })
 export class AppModule {}
