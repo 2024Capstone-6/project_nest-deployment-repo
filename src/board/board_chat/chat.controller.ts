@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Upl
 import { ChatService } from './chat.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
-import { AwsService } from 'src/aws/aws.service';
+import { AwsService } from '../board_aws/aws.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('board/:boardId/chats')

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { ChatController } from './chat.controller';
-import { AwsModule } from 'src/aws/aws.module';
+import { AwsModule } from '../board_aws/aws.module';
 import { Chat } from './entities/chat.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 

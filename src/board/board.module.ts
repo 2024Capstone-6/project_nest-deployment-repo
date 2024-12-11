@@ -3,7 +3,7 @@ import { BoardService } from './board.service';
 import { BoardController } from './board.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Board } from './entities/board.entity';
-import { AwsModule } from 'src/aws/aws.module';
+import { AwsModule } from './board_aws/aws.module';
 
 @Module({
   imports:[TypeOrmModule.forFeature([Board]),AwsModule],
