@@ -11,14 +11,14 @@ import {
 import { JapaneseService } from './japanese.service';
 import { Japanese } from '../entities/japanese.entity';
 
-import { CreateJapaneseDto } from './dto/create-activity.dto';
-import { UpdateJapaneseDto } from './dto/update-activity.dto';
+import { CreateJapaneseDto } from './dto/create-japanese.dto';
+import { UpdateJapaneseDto } from './dto/update-japanese.dto';
 
 @Controller('japanese')
 export class JapaneseController {
   constructor(private readonly japaneseService: JapaneseService) {}
 
-  // CREATE
+  // CREATE - 일본어 게시물 생성
   @Post()
   async createJapanese(@Body() createJapaneseDto: CreateJapaneseDto) {
     return this.japaneseService.createJapanese(createJapaneseDto);
@@ -39,15 +39,13 @@ export class JapaneseController {
     return this.japaneseService.findJapaneseWithPagination(page, limit);
   }
 
-  // READ - 이메일이나 제목으로 일본어 게시물 검색 (개발 예정)
-
   // READ - 특정 ID의 게시물 가져오기
   @Get(':id')
   async findOne(@Param('id') id: number) {
     return this.japaneseService.findOne(+id);
   }
 
-  // UPDATE
+  // UPDATE - 일본어 게시물 업데이트
   @Patch(':id')
   async updateJapanese(
     @Param('id') id: number,
@@ -56,7 +54,7 @@ export class JapaneseController {
     return this.japaneseService.updateJapanese(+id, updateJapaneseDto);
   }
 
-  // DELETE
+  // DELETE - 일본어 게시물 삭제
   @Delete(':id')
   async removeJapanese(@Param('id') id: number) {
     return this.japaneseService.removeJapanese(+id);
