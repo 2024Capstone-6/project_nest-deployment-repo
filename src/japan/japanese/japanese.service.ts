@@ -3,8 +3,8 @@ import { DataSource } from 'typeorm';
 
 import { Japanese } from '../entities/japanese.entity';
 
-import { CreateJapaneseDto } from './dto/create-activity.dto';
-import { UpdateJapaneseDto } from './dto/update-activity.dto';
+import { CreateJapaneseDto } from './dto/create-japanese.dto';
+import { UpdateJapaneseDto } from './dto/update-japanese.dto';
 
 @Injectable()
 export class JapaneseService {

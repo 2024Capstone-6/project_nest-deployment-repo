@@ -1,4 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateJapaneseDto } from './create-activity.dto';
+
+// 기존에 정의된 CreateJapaneseDto를 가져옴
+import { CreateJapaneseDto } from './create-japanese.dto';
 
 export class UpdateJapaneseDto extends PartialType(CreateJapaneseDto) {}
