@@ -1,8 +1,8 @@
-import { IsString } from 'class-validator';
+import { IsString, IsEmail } from 'class-validator';
 
 export class CreateJapaneseDto {
-  @IsString()
-  date: string;
+  @IsEmail()
+  email: string;
 
   @IsString()
   title: string;

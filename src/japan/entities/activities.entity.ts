@@ -12,8 +12,8 @@ export class Activities {
   email: string;
 
   // 기본값을 추가, 데이터 생성 시 자동으로 설정
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  date: Date;
+  @Column()
+  date: string;
 
   @Column()
   title: string;

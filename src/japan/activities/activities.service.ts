@@ -1,3 +1,6 @@
+// READ에는 트랜잭션 필요없음
+// PIPE
+
 import { Injectable } from '@nestjs/common';
 import { Activities } from '../entities/activities.entity';
 import { CreateActivityDto } from './dto/create-activity.dto';
@@ -17,9 +20,12 @@ export class ActivitiesService {
     await queryRunner.startTransaction();
 
     try {
+      const now = new Date();
+      const formattedDate = `${now.getFullYear().toString().slice(2)}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
       const activity = queryRunner.manager.create(Activities, {
         ...createActivityDto,
-        date: new Date().toISOString().split('T')[0],
+        date: formattedDate,
       });
       await queryRunner.manager.save(activity);
       await queryRunner.commitTransaction();
@@ -34,20 +40,7 @@ export class ActivitiesService {
 
   // READ: 모든 활동 게시물을 찾는 메서드
   async findAllActivities(): Promise<Activities[]> {
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-
-    try {
-      const activities = await queryRunner.manager.find(Activities);
-      await queryRunner.commitTransaction();
-      return activities;
-    } catch (err) {
-      await queryRunner.rollbackTransaction();
-      throw err;
-    } finally {
-      await queryRunner.release();
-    }
+    return await this.dataSource.manager.find(Activities);
   }
 
   // READ: 페이지네이션을 위한 활동 게시물을 찾는 메서드
@@ -55,27 +48,15 @@ export class ActivitiesService {
     page: number,
     limit: number,
   ): Promise<{ items: Activities[]; total: number }> {
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-
-    try {
-      const offset = (page - 1) * limit;
-      const [items, total] = await queryRunner.manager.findAndCount(
-        Activities,
-        {
-          skip: offset,
-          take: limit,
-        },
-      );
-      await queryRunner.commitTransaction();
-      return { items, total };
-    } catch (err) {
-      await queryRunner.rollbackTransaction();
-      throw err;
-    } finally {
-      await queryRunner.release();
-    }
+    const offset = (page - 1) * limit;
+    const [items, total] = await this.dataSource.manager.findAndCount(
+      Activities,
+      {
+        skip: offset,
+        take: limit,
+      },
+    );
+    return { items, total };
   }
 
   // READ: 특정 활동 게시물을 찾는 메서드

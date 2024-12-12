@@ -1,8 +1,8 @@
-import { IsString, IsOptional, IsUrl } from 'class-validator';
+import { IsString, IsOptional, IsUrl, IsEmail } from 'class-validator';
 
 export class CreateActivityDto {
-  @IsString()
-  date: string;
+  @IsEmail()
+  email: string;
 
   @IsString()
   title: string;

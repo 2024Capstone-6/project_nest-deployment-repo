@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
 import { S3Module } from './member/s3/s3.module';
 
 import { UserdtModule } from './userdt/userdt.module';

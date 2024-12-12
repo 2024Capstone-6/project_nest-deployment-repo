@@ -8,9 +8,8 @@ export class Japanese {
   @Column() // 일반 컬럼 정의
   email: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  // 타임스탬프 타입의 컬럼으로, 기본값으로 현재 시간 설정
-  date: Date;
+  @Column() // 타입을 string으로 변경
+  date: string;
 
   @Column()
   title: string;
