@@ -8,7 +8,7 @@ import { S3Module } from './member/s3/s3.module';
 import { UserdtModule } from './userdt/userdt.module';
 import { MemberModule } from './member/member.module';
 import { JapanModule } from './japan/japan.module';
-import { BoardModule } from './board/board.module';
+import { BoardModule } from './board/board/board.module';
 import { SpecialModule } from './special/special.module';
 
 import { Userdt } from './userdt/entities/userdt.entity';

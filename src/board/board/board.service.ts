@@ -1,33 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
-import { Board } from './entities/board.entity';
+import { Board } from '../entities/board.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-
-// const date = new Date();
-
-// const formattedDate = date.toLocaleString('ko-KR', {
-//   year: 'numeric',
-//   month: '2-digit',
-//   day: '2-digit',
-//   hour: '2-digit',
-//   minute: '2-digit',
-//   second: '2-digit'
-// });
-
-// const isoDate = date.toISOString();
 
 @Injectable()
 export class BoardService {
   constructor(
     @InjectRepository(Board) private repository: Repository<Board>,
   ) {}
-
-  // async create(createBoardDto: CreateBoardDto): Promise<Board> {
-  //   const newBoard = this.repository.create(createBoardDto);
-  //   return await this.repository.save(newBoard);
-  // }
 
   async create(createBoardDto: CreateBoardDto): Promise<Board> {
     const newBoard = this.repository.create({
@@ -72,11 +54,18 @@ export class BoardService {
     return board;
   }
 
-  async update(id: number, updateBoardDto: UpdateBoardDto): Promise<void> {
-    const result = await this.repository.update(id, updateBoardDto);
-    if (result.affected === 0) {
+  async update(id: number, updateBoardDto: UpdateBoardDto): Promise<Board> {
+    const existingBoard = await this.repository.findOneBy({ id });
+    console.log(existingBoard);
+    if (!existingBoard) {
       throw new NotFoundException(`게시글 ID ${id}를 찾을 수 없습니다.`);
     }
+  
+    // 이미지가 없는 경우 기존 이미지를 유지
+    const updatedData = { ...existingBoard, ...updateBoardDto };
+    console.log(updatedData);
+    await this.repository.save(updatedData);
+    return this.findOne(id); // 업데이트 후 변경된 엔티티 반환
   }
 
   async remove(id: number): Promise<void> {
