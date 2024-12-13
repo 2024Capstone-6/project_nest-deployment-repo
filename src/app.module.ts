@@ -13,7 +13,7 @@ import { Userdt } from './userdt/entities/userdt.entity';
 import { Member } from './member/member.entity';
 import { Activities } from './japan/entities/activities.entity';
 import { Japanese } from './japan/entities/japanese.entity';
-import { Board } from './board/entities/board.entity';
+import { Board } from './board/board/entities/board.entity';
 import { Special } from './special/entities/special.entity';
 
 import { AwsModule } from './board/board_aws/aws.module';
