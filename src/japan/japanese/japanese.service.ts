@@ -21,7 +21,6 @@ export class JapaneseService {
     try {
       const japanese = queryRunner.manager.create(Japanese, {
         ...createJapaneseDto,
-        date: new Date().toISOString().split('T')[0],
       });
       await queryRunner.manager.save(japanese);
       await queryRunner.commitTransaction();
@@ -36,20 +35,7 @@ export class JapaneseService {
 
   // READ: 모든 일본어 게시물 조회
   async findAllJapanese(): Promise<Japanese[]> {
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-
-    try {
-      const japanese = await queryRunner.manager.find(Japanese);
-      await queryRunner.commitTransaction();
-      return japanese;
-    } catch (err) {
-      await queryRunner.rollbackTransaction();
-      throw err;
-    } finally {
-      await queryRunner.release();
-    }
+    return await this.dataSource.manager.find(Japanese);
   }
 
   // READ: 페이지네이션
@@ -57,45 +43,24 @@ export class JapaneseService {
     page: number,
     limit: number,
   ): Promise<{ items: Japanese[]; total: number }> {
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-
-    try {
-      const skip = (page - 1) * limit;
-      const [items, total] = await queryRunner.manager.findAndCount(Japanese, {
+    const skip = (page - 1) * limit;
+    const [items, total] = await this.dataSource.manager.findAndCount(
+      Japanese,
+      {
         skip,
         take: limit,
-      });
-      await queryRunner.commitTransaction();
-      return { items, total };
-    } catch (err) {
-      await queryRunner.rollbackTransaction();
-      throw err;
-    } finally {
-      await queryRunner.release();
-    }
+      },
+    );
+    return { items, total };
   }
 
   // READ: 특정 ID의 게시물 찾기
   async findOne(id: number): Promise<Japanese> {
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-
-    try {
-      const japanese = await queryRunner.manager.findOneBy(Japanese, { id });
-      if (!japanese) {
-        throw new NotFoundException(`Japanese post with ID ${id} not found`);
-      }
-      await queryRunner.commitTransaction();
-      return japanese;
-    } catch (err) {
-      await queryRunner.rollbackTransaction();
-      throw err;
-    } finally {
-      await queryRunner.release();
+    const japanese = await this.dataSource.manager.findOneBy(Japanese, { id });
+    if (!japanese) {
+      throw new NotFoundException(`Japanese post with ID ${id} not found`);
     }
+    return japanese;
   }
 
   // UPDATE: 게시물 업데이트
