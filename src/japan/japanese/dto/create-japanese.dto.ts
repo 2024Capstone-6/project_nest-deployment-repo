@@ -5,6 +5,9 @@ export class CreateJapaneseDto {
   email: string;
 
   @IsString()
+  date: string;
+
+  @IsString()
   title: string;
 
   @IsString()

@@ -5,6 +5,9 @@ export class CreateActivityDto {
   email: string;
 
   @IsString()
+  date: string;
+
+  @IsString()
   title: string;
 
   @IsString()

@@ -1,6 +1,3 @@
-// READ에는 트랜잭션 필요없음
-// PIPE
-
 import { Injectable } from '@nestjs/common';
 import { Activities } from '../entities/activities.entity';
 import { CreateActivityDto } from './dto/create-activity.dto';
@@ -20,12 +17,8 @@ export class ActivitiesService {
     await queryRunner.startTransaction();
 
     try {
-      const now = new Date();
-      const formattedDate = `${now.getFullYear().toString().slice(2)}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-
       const activity = queryRunner.manager.create(Activities, {
         ...createActivityDto,
-        date: formattedDate,
       });
       await queryRunner.manager.save(activity);
       await queryRunner.commitTransaction();
