@@ -1,9 +1,13 @@
+import { IsOptional, IsString, IsUrl } from 'class-validator';
+
 export class CreateBoardDto {
-  title:string;
+  @IsString()
+  title: string;
 
-  content:string;
+  @IsString()
+  content: string;
 
-  imgurl?:string;
-
-  date:string;
+  @IsOptional()
+  @IsUrl()
+  imgurl?: string;
 }

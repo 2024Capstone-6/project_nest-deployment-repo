@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { BoardService } from './board.service';
 import { AwsService } from '../board_aws/aws.service';
@@ -17,7 +28,7 @@ export class BoardController {
   @UseInterceptors(FileInterceptor('file'))
   async create(
     @Body() createBoardDto: CreateBoardDto,
-    @UploadedFile() file?: Express.Multer.File // 파일이 선택 사항임을 명시
+    @UploadedFile() file?: Express.Multer.File, // 파일이 선택 사항임을 명시
   ) {
     let imgUrl = null;
 
@@ -54,7 +65,7 @@ export class BoardController {
   async update(
     @Param('id') id: string,
     @Body() updateBoardDto: UpdateBoardDto,
-    @UploadedFile() file?: Express.Multer.File // 파일이 선택 사항임을 명시
+    @UploadedFile() file?: Express.Multer.File, // 파일이 선택 사항임을 명시
   ) {
     if (file) {
       // 이미지를 AWS S3에 업로드

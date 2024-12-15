@@ -7,9 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class BoardService {
-  constructor(
-    @InjectRepository(Board) private repository: Repository<Board>,
-  ) {}
+  constructor(@InjectRepository(Board) private repository: Repository<Board>) {}
 
   async create(createBoardDto: CreateBoardDto): Promise<Board> {
     const newBoard = this.repository.create({
@@ -20,7 +18,7 @@ export class BoardService {
         day: '2-digit',
         hour: '2-digit',
         minute: '2-digit',
-        second: '2-digit'
+        second: '2-digit',
       }),
     });
     return await this.repository.save(newBoard);
@@ -60,7 +58,7 @@ export class BoardService {
     if (!existingBoard) {
       throw new NotFoundException(`게시글 ID ${id}를 찾을 수 없습니다.`);
     }
-  
+
     // 이미지가 없는 경우 기존 이미지를 유지
     const updatedData = { ...existingBoard, ...updateBoardDto };
     console.log(updatedData);
