@@ -10,6 +10,16 @@ async function bootstrap() {
   // AppModule을 기반으로 NestJS 애플리케이션 생성
   // NestFactory: NestJS 애플리케이션의 인스턴스를 생성하는 데 사용
   const app = await NestFactory.create(AppModule);
+
+  // ValidationPipe 전역 설정 추가
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // DTO에 정의되지 않은 속성은 자동으로 제거
+      transform: true, // 입력 데이터를 DTO 클래스의 인스턴스로 자동 변환
+      forbidNonWhitelisted: true, // DTO에 정의되지 않은 속성이 있으면 요청 거부
+    }),
+  );
+
   // CORS(Cross-Origin Resource Sharing) 활성화
   // CORS: 브라우저가 다른 도메인 또는 포트에서의 요청을 허용하도록 하는 설정
   app.enableCors({

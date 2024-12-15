@@ -28,7 +28,7 @@ export class ActivitiesController {
     private readonly awsS3Service: AwsS3Service,
   ) {}
 
-  // 활동 생성 및 이미지 업로드
+  // CREATE - 활동 생성 및 이미지 업로드
   @Post()
   @UseInterceptors(FileInterceptor('image'))
   async createActivity(
@@ -53,13 +53,13 @@ export class ActivitiesController {
     });
   }
 
-  // 모든 활동 조회
+  // READ - 모든 활동 조회
   @Get()
   async findAllActivities() {
     return this.activitiesService.findAllActivities();
   }
 
-  // 페이지네이션을 적용한 활동 조회
+  // READ - 페이지네이션을 적용한 활동 조회
   @Get('page')
   async findActivitiesWithPagination(
     @Query('page') page: number,
@@ -68,13 +68,13 @@ export class ActivitiesController {
     return this.activitiesService.findActivitiesWithPagination(page, limit);
   }
 
-  // ID로 특정 활동 조회
+  // READ - ID로 특정 활동 조회
   @Get(':id')
   async findActivityById(@Param('id') id: number) {
     return this.activitiesService.findActivityById(+id);
   }
 
-  // 활동 수정
+  // UPDATE - 활동 수정
   @Patch(':id')
   @UseInterceptors(FileInterceptor('image'))
   async updateActivity(
@@ -102,7 +102,7 @@ export class ActivitiesController {
     });
   }
 
-  // 활동 삭제
+  // DELETE - 활동 삭제
   @Delete(':id')
   async removeActivity(@Param('id') id: string) {
     // 삭제 전 활동 정보 조회

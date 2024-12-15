@@ -1,6 +1,5 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { UserdtModule } from '../userdt/userdt.module';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -12,7 +11,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [
     ConfigModule,
     TypeOrmModule.forFeature([Userdt]),
-    forwardRef(() => UserdtModule), // 순환 의존성 해결
     JwtModule.registerAsync({
       // 비동기로 JwtModule을 설정
       imports: [ConfigModule],
