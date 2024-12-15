@@ -11,29 +11,36 @@ import {
   UploadedFile,
 } from '@nestjs/common';
 
+// 파일 업로드 기능을 제공하는 인터셉터
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { ActivitiesService } from './activities.service';
 import { Activities } from '../entities/activities.entity';
 
+// 활동 생성 및 업데이트에 필요한 DTO 클래스
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
 
+// S3 서비스 클래스
 import { AwsS3Service } from '../S3/aws-s3.service';
 
+// 컨트롤러임을 선언, 기본 라우트 경로가 activities로 설정
 @Controller('activities')
 export class ActivitiesController {
   constructor(
+    // 활동 데이터를 데이터베이스에서 처리하는 서비스
     private readonly activitiesService: ActivitiesService,
+    // S3와 관련된 이미지 업로드 및 삭제 작업을 처리하는 서비스
     private readonly awsS3Service: AwsS3Service,
   ) {}
 
   // CREATE - 활동 생성 및 이미지 업로드
   @Post()
+  // 요청에서 image 필드의 파일을 처리하도록 설정, 파일은 multer를 사용하여 관리
   @UseInterceptors(FileInterceptor('image'))
   async createActivity(
     @Body() createActivityDto: CreateActivityDto,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file: Express.Multer.File, // 업로드된 파일을 받음
   ) {
     let imageUrl = null;
 
@@ -62,9 +69,10 @@ export class ActivitiesController {
   // READ - 페이지네이션을 적용한 활동 조회
   @Get('page')
   async findActivitiesWithPagination(
-    @Query('page') page: number,
-    @Query('limit') limit: number,
+    @Query('page') page: number, // 페이지 번호
+    @Query('limit') limit: number, // 페이지당 항목 수
   ): Promise<{ items: Activities[]; total: number }> {
+    // 페이지네이션 결과를 반환하는 타입
     return this.activitiesService.findActivitiesWithPagination(page, limit);
   }
 
@@ -76,11 +84,12 @@ export class ActivitiesController {
 
   // UPDATE - 활동 수정
   @Patch(':id')
+  // 요청에서 image 필드의 파일을 처리하도록 설정, 파일은 multer를 사용하여 관리
   @UseInterceptors(FileInterceptor('image'))
   async updateActivity(
     @Param('id') id: number,
-    @Body() updateActivityDto: UpdateActivityDto,
-    @UploadedFile() file: Express.Multer.File,
+    @Body() updateActivityDto: UpdateActivityDto, // 요청 본문 데이터
+    @UploadedFile() file: Express.Multer.File, // 업로드된 파일을 받음
   ) {
     let imageUrl = null;
 

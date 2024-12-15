@@ -30,12 +30,12 @@ export class JapaneseController {
     return this.japaneseService.findAllJapanese();
   }
 
-  // READ - 페이지네이션 일본어 게시물 가져오기
+  // READ - 페이지네이션된 일본어 게시물 조회
   @Get('page')
   async findJapaneseWithPagination(
     @Query('page') page: number,
   ): Promise<{ items: Japanese[]; total: number }> {
-    const limit = 1; // 한 페이지당 하나의 게시물
+    const limit = 1; // 페이지당 게시물 수를 1개로 고정
     return this.japaneseService.findJapaneseWithPagination(page, limit);
   }
 
