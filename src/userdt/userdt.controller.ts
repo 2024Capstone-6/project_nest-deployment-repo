@@ -4,13 +4,9 @@ import {
   Post,
   Body,
   Query,
-  Patch,
-  Param,
-  Delete,
   UsePipes,
   UnauthorizedException,
   ValidationPipe,
-  BadRequestException,
 } from '@nestjs/common';
 import { UserdtService } from './userdt.service';
 import { CreateUserdtDto } from './dto/create-userdt.dto';
@@ -26,6 +22,7 @@ export class UserdtController {
   // 5. 클라이언트에서 데이터를 받을 엔드포인트 생성
   @Post()
   async create(@Body() createUserdtDto: CreateUserdtDto) {
+    // 유효성 검사가 통과되면 여기서 로직 처리
     try {
       const newUser = await this.userdtService.create(createUserdtDto);
       return { message: 'User created successfully', user: newUser };
@@ -47,8 +44,10 @@ export class UserdtController {
 
   // 로그인 API
   @Post('login')
-  async login(@Body() body: { email: string; password: string }) {
-    const { email, password } = body;
+  async login(
+    @Body() loginDto: { email: string; password: string },
+  ): Promise<any> {
+    const { email, password } = loginDto;
 
     const user = await this.userdtService.validateUser(email, password);
     if (!user) {
@@ -69,7 +68,9 @@ export class UserdtController {
 
   // 닉네임 중복 확인 엔드포인트 추가
   @Get('check-nickname')
-  async checkNickname(@Query('nickname') nickname: string) {
+  async checkNickname(
+    @Query('nickname') nickname: string,
+  ): Promise<{ valid: boolean; available: boolean }> {
     const { isValid, isAvailable } =
       await this.userdtService.isNicknameAvailable(nickname);
     return { valid: isValid, available: isAvailable };
@@ -77,7 +78,9 @@ export class UserdtController {
 
   // 이메일 중복 확인 엔드포인트 추가
   @Get('check-email')
-  async checkEmail(@Query('email') email: string) {
+  async checkEmail(
+    @Query('email') email: string,
+  ): Promise<{ valid: boolean; available: boolean }> {
     const { isValid, isAvailable } =
       await this.userdtService.isEmailAvailable(email);
     return { valid: isValid, available: isAvailable };
@@ -85,7 +88,9 @@ export class UserdtController {
 
   // 비밀번호 유효성 검사 API 추가
   @Get('check-password')
-  async checkPassword(@Query('password') password: string) {
+  async checkPassword(
+    @Query('password') password: string,
+  ): Promise<{ valid: boolean }> {
     const isValid = await this.userdtService.isPasswordValid(password);
     return { valid: isValid };
   }
@@ -93,8 +98,12 @@ export class UserdtController {
   // 유효성 검사 API
   @Post()
   @UsePipes(new ValidationPipe({ transform: true }))
-  async createUser(@Body() createUserdtDto: CreateUserdtDto) {
-    // 유효성 검사가 통과되면 여기서 로직 처리
-    return { message: 'User created successfully!' };
+  async createUser(@Body() createUserdtDto: CreateUserdtDto): Promise<any> {
+    try {
+      const result = await this.userdtService.create(createUserdtDto);
+      return { message: 'User created successfully!', user: result };
+    } catch (error) {
+      return { message: 'Error creating user', error };
+    }
   }
 }
